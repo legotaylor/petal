@@ -11,17 +11,26 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.tasks.JavaExec;
-import org.gradle.api.tasks.TaskProvider;
 
 import java.io.File;
 
+/**
+ * A Gradle plugin that adds tasks for building and running Spore addons.
+ */
 public class PetalPlugin implements Plugin<Project> {
+	/**
+	 * Adds 'copy' and 'runServer' tasks.
+	 */
+	public PetalPlugin() {
+	}
 	public void apply(Project project) {
 		Configuration sporeConfig = project.getConfigurations().maybeCreate("spore");
 		sporeConfig.setCanBeConsumed(false);
 		sporeConfig.setCanBeResolved(true);
 
-		TaskProvider<JavaExec> copyTask = project.getTasks().register("copy", JavaExec.class, task -> {
+		project.getConfigurations().getByName("implementation").extendsFrom(sporeConfig);
+
+		var copyTask = project.getTasks().register("copy", task -> {
 			task.setGroup("petal");
 			task.setDescription("Assembles and copies the project to the 'run/addons' directory.");
 			task.dependsOn("jar");
@@ -36,7 +45,7 @@ public class PetalPlugin implements Plugin<Project> {
 			});
 		});
 
-		TaskProvider<JavaExec> runServerTask = project.getTasks().register("runServer", JavaExec.class, task -> {
+		var runServerTask = project.getTasks().register("runServer", JavaExec.class, task -> {
 			task.setGroup("petal");
 			task.setDescription("Starts the 'server' run configuration.");
 			task.getMainClass().set("dev.dannytaylor.spore.SporeMain");
