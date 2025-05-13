@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'maven-publish'
+    id 'java-gradle-plugin'
     id 'com.gradle.plugin-publish' version '1.3.1'
 }
 
@@ -55,14 +56,14 @@ publishing {
 
 gradlePlugin {
     website = 'https://github.com/legotaylor/petal'
-    vcsUrl = 'https://github.com/legotaylor/petal'
+    vcsUrl = 'https://github.com/legotaylor/petal.git'
     plugins {
-        greetingsPlugin {
+        petal {
             id = 'dev.dannytaylor.petal'
             implementationClass = 'dev.dannytaylor.petal.PetalPlugin'
             displayName = 'Petal'
             description = 'A simple gradle plugin that helps make spore addons!'
-            tags.set(['dannytaylor', 'petal', 'spore', 'sporeblossom', 'plugin'])
+            tags.set(['dannytaylor', 'petal', 'spore', 'sporeblossom'])
         }
     }
 }
