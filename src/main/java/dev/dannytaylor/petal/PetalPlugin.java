@@ -51,6 +51,9 @@ public class PetalPlugin implements Plugin<Project> {
 			task.getMainClass().set("dev.dannytaylor.spore.SporeMain");
 			task.setClasspath(sporeConfig);
 			task.setWorkingDir(project.file("run"));
+			task.setStandardOutput(System.out);
+			task.setErrorOutput(System.err);
+			task.setStandardInput(System.in);
 			task.dependsOn(copyTask);
 		});
 	}
